@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600&display=swap" rel="stylesheet">
+    <title>YardSale</title>
+    
+    <style>
+        :root{
+            --white: #FFFFFF;
+            --black: #000000;
+            --dark:#232830;
+            --very-light-pinK: #c7c7c7;
+            --text-input-field: #F7F7F7;
+            --hospital-green: #ACD9B2;
+            --sm: 14px;
+            --md: 16px;
+            --lg: 18px;
+        }
+
+        body{
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .mobile-menu{
+            padding: 24px;
+        }
+        
+        .mobile-menu a{
+            text-decoration: none;
+            color: var(--black);
+            font-weight: bold;
+            /* margin-bottom: 24px; */
+        }
+
+        .mobile-menu ul{
+            padding: 0;
+            margin: 24px 0;
+            list-style: none;
+        }
+
+        .mobile-menu ul:nth-child(1){
+            border-bottom: 1px solid var(--very-light-pinK);
+        }
+
+        .mobile-menu ul li{
+            margin-bottom: 24px;
+        }
+    
+        .email{
+            font-size: var(--sm);
+            font-weight: 300 !important;
+            color: var(--very-light-pinK);
+        }
+
+        .sign-out{
+            font-size: var(--sm);
+            color: var(--hospital-green)!important;
+        }
+
+        .mobile-menu ul:last-child{
+            position: absolute;
+            bottom: 0;
+        }
+ 
+    </style>
+
+</head>
+<body>
+    <div class="mobile-menu">
+        <ul>
+            <li class="Title"><a href="/">Categories</a></li>
+            <li><a href="">All</a></li>
+            <li><a href="">clothes</a></li>
+            <li><a href="">Electronic</a></li>
+            <li><a href="">Furnitures</a></li>
+            <li><a href="">Toys</a></li>
+            <li><a href="">Others</a></li>
+            <li><a href="">My account</a></li>
+        </ul>
+        <ul>
+            <li><a href="">Others</a></li>
+            <li><a href="">My account</a></li>
+        </ul>
+        <ul class="other">
+            <li><a href="" class="email">platzi@gmail.com</a></li>
+            <li><a href="" class="sign-out">sign out</a></li>
+        </ul>
+    </div>
+</body>
+</html>

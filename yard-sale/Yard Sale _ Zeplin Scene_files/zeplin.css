@@ -1,0 +1,413 @@
+/*
+font-weight: 100            Roboto-Thin
+font-weight: 200
+font-weight: 300            Roboto-Light
+font-weight: 400    normal  Roboto-Regular
+font-weight: 500            Roboto-Medium
+font-weight: 600
+font-weight: 700    bold    Roboto-Bold
+font-weight: 800
+font-weight: 900            Roboto-Black
+*/
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 100;
+    font-variant: normal;
+    src: local(Roboto Thin),
+         local(RobotoThin),
+         local(Roboto-Thin),
+         url(../font/Roboto-Thin.woff2) format("woff2"),
+         url(../font/Roboto-Thin.woff) format("woff"),
+         url(../font/Roboto-Thin.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 100;
+    font-variant: normal;
+    src: local(Roboto Thin Italic),
+         local(Roboto ThinItalic),
+         local(RobotoThinItalic),
+         local(Roboto-ThinItalic),
+         local(Roboto-Thin-Italic),
+         url(../font/Roboto-ThinItalic.woff2) format("woff2"),
+         url(../font/Roboto-ThinItalic.woff) format("woff"),
+         url(../font/Roboto-ThinItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 300;
+    font-variant: normal;
+    src: local(Roboto Light),
+         local(RobotoLight),
+         local(Roboto-Light),
+         url(../font/Roboto-Light.woff2) format("woff2"),
+         url(../font/Roboto-Light.woff) format("woff"),
+         url(../font/Roboto-Light.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 300;
+    font-variant: normal;
+    src: local(Roboto Light Italic),
+         local(Roboto LightItalic),
+         local(RobotoLightItalic),
+         local(Roboto-LightItalic),
+         local(Roboto-Light-Italic),
+         url(../font/Roboto-LightItalic.woff2) format("woff2"),
+         url(../font/Roboto-LightItalic.woff) format("woff"),
+         url(../font/Roboto-LightItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    src: local(Roboto Regular),
+         local(RobotoRegular),
+         local(Roboto-Regular),
+         url(../font/Roboto-Regular.woff2) format("woff2"),
+         url(../font/Roboto-Regular.woff) format("woff"),
+         url(../font/Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: normal;
+    font-variant: normal;
+    src: local(Roboto Italic),
+         local(RobotoItalic),
+         local(Roboto-Italic),
+         url(../font/Roboto-Italic.woff2) format("woff2"),
+         url(../font/Roboto-Italic.woff) format("woff"),
+         url(../font/Roboto-Italic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 500;
+    font-variant: normal;
+    src: local(Roboto Medium),
+         local(RobotoMedium),
+         local(Roboto-Medium),
+         url(../font/Roboto-Medium.woff2) format("woff2"),
+         url(../font/Roboto-Medium.woff) format("woff"),
+         url(../font/Roboto-Medium.ttf) format("truetype");
+}
+
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 500;
+    font-variant: normal;
+    src: local(Roboto Medium Italic),
+         local(Roboto MediumItalic),
+         local(RobotoMediumItalic),
+         local(Roboto-MediumItalic),
+         local(Roboto-Medium-Italic),
+         url(../font/Roboto-MediumItalic.woff2) format("woff2"),
+         url(../font/Roboto-MediumItalic.woff) format("woff"),
+         url(../font/Roboto-MediumItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 700;
+    font-variant: normal;
+    src: local(Roboto Bold),
+         local(RobotoBold),
+         local(Roboto-Bold),
+         url(../font/Roboto-Bold.woff2) format("woff2"),
+         url(../font/Roboto-Bold.woff) format("woff"),
+         url(../font/Roboto-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 700;
+    font-variant: normal;
+    src: local(Roboto Bold Italic),
+         local(Roboto BoldItalic),
+         local(RobotoBoldItalic),
+         local(Roboto-BoldItalic),
+         local(Roboto-Bold-Italic),
+         url(../font/Roboto-BoldItalic.woff2) format("woff2"),
+         url(../font/Roboto-BoldItalic.woff) format("woff"),
+         url(../font/Roboto-BoldItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: 900;
+    font-variant: normal;
+    src: local(Roboto Black),
+         local(RobotoBlack),
+         local(Roboto-Black),
+         url(../font/Roboto-Black.woff2) format("woff2"),
+         url(../font/Roboto-Black.woff) format("woff"),
+         url(../font/Roboto-Black.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto;
+    font-style: italic;
+    font-weight: 900;
+    font-variant: normal;
+    src: local(Roboto Black Italic),
+         local(Roboto BlackItalic),
+         local(RobotoBlackItalic),
+         local(Roboto-BlackItalic),
+         local(Roboto-Black-Italic),
+         url(../font/Roboto-BlackItalic.woff2) format("woff2"),
+         url(../font/Roboto-BlackItalic.woff) format("woff"),
+         url(../font/Roboto-BlackItalic.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto Mono;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    src: local(RobotoMono Regular),
+         local(RobotoMonoRegular),
+         local(RobotoMono-Regular),
+         url(../font/RobotoMono-Regular.woff2) format("woff2"),
+         url(../font/RobotoMono-Regular.woff) format("woff"),
+         url(../font/RobotoMono-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: 100;
+    src: local(Roboto Slab Thin),
+         local(RobotoSlab Thin),
+         local(RobotoSlabThin),
+         local(RobotoSlab-Thin),
+         url(../font/RobotoSlab-Thin.woff) format('woff'),
+         url(../font/RobotoSlab-Thin.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: 300;
+    src: local(Roboto Slab Light),
+         local(RobotoSlab Light),
+         local(RobotoSlabLight),
+         local(RobotoSlab-Light),
+         url(../font/RobotoSlab-Light.woff) format('woff'),
+         url(../font/RobotoSlab-Light.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: 400;
+    src: local('Roboto Slab Regular'),
+         local('RobotoSlab Regular'),
+         local('RobotoSlabRegular'),
+         local('RobotoSlab-Regular'),
+         url(../font/RobotoSlab-Regular.woff) format('woff'),
+         url(../font/RobotoSlab-Regular.ttf) format('truetype');
+}
+
+@font-face {
+    font-family: Roboto Slab;
+    font-style: normal;
+    font-weight: 700;
+    src: local('Roboto Slab Bold'),
+         local('RobotoSlab Bold'),
+         local('RobotoSlabBold'),
+         local('RobotoSlab-Bold'),
+         url(../font/RobotoSlab-Bold.woff) format('woff'),
+         url(../font/RobotoSlab-Bold.ttf) format('truetype');
+}
+
+@-webkit-keyframes wiggle {
+    from { -webkit-transform: rotateZ(1deg); }
+    25% { -webkit-transform: rotateZ(-1deg); }
+    50% { -webkit-transform: rotateZ(1deg); }
+    75% { -webkit-transform: rotateZ(-1deg); }
+    to { -webkit-transform: rotateZ(1deg); }
+}
+
+@keyframes wiggle {
+    from {
+        -webkit-transform: rotateZ(1deg);
+        transform: rotateZ(1deg);
+    }
+
+    25% {
+        -webkit-transform: rotateZ(-1deg);
+        transform: rotateZ(-1deg);
+    }
+
+    50% {
+        -webkit-transform: rotateZ(1deg);
+        transform: rotateZ(1deg);
+    }
+
+    75% {
+        -webkit-transform: rotateZ(-1deg);
+        transform: rotateZ(-1deg);
+    }
+
+    to {
+        -webkit-transform: rotateZ(1deg);
+        transform: rotateZ(1deg);
+    }
+}
+
+.wiggle {
+    will-change: transform;
+    -webkit-animation-name: wiggle;
+    -webkit-animation-duration: 300ms;
+
+    animation-name: wiggle;
+    animation-duration: 300ms;
+}
+
+:root {
+    --white-70pc: rgba(255, 255, 255, 0.7);
+
+    --whitey-90pc: rgba(246, 246, 246, 0.9);
+
+    --warm-gray: #bcb5b9;
+    --warm-gray-50pc: rgba(188, 181, 185, 0.5);
+    --warm-gray-30pc: rgba(188, 181, 185, 0.3);
+    --warm-gray-10pc: rgba(188, 181, 185, 0.1);
+
+    --maroon: #574751;
+    --maroon-30pc: rgba(87, 71, 81, 0.3);
+    --maroon-70pc: rgba(87, 71, 81, 0.7);
+    --maroon-95pc: rgba(87, 71, 81, 0.95);
+
+    --light-green: #c8cf2d;
+
+    --peach: #ee6723;
+    --peach-20pc: rgba(238, 103, 35, 0.2);
+
+    --yellow: #fecf33;
+
+    --orange: #f69833;
+
+    --light-orange: #fdbd39;
+    --light-orange-15pc: rgba(253, 189, 57, 0.15);
+
+    --selection-blue: #007aff;
+    --grapefruit: #ff5500;
+    --teflon: #554d56;
+
+    --gandalf: #979197;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+
+    border: none;
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    font-family: Roboto, Helvetica, sans-serif;
+    font-weight: normal;
+
+    box-sizing: border-box;
+
+    -webkit-tap-highlight-color: transparent;
+}
+
+::-moz-selection {
+    color: #FFF;
+    background-color: #EE6723;
+    background-color: var(--peach);
+}
+
+::selection {
+    -webkit-text-fill-color: #FFF;
+    color: #FFF;
+    background-color: #EE6723;
+    background-color: var(--peach);
+}
+
+::-webkit-input-placeholder {
+    color: #574751;
+    color: var(--maroon);
+    opacity: 0.5;
+}
+
+::-moz-placeholder {
+    color: #574751;
+    color: var(--maroon);
+    opacity: 0.5;
+}
+
+:-webkit-autofill {
+    box-shadow: 0 0 0 100px #FFF inset;
+    -webkit-text-fill-color: #574751;
+    -webkit-text-fill-color: var(--maroon);
+    color: #574751;
+    color: var(--maroon);
+}
+
+:-moz-autofill {
+    box-shadow: 0 0 0 100px #FFF inset;
+    -moz-text-fill-color: #574751;
+    -moz-text-fill-color: var(--maroon);
+    color: #574751;
+    color: var(--maroon);
+}
+
+:autofill {
+    box-shadow: 0 0 0 100px #FFF inset;
+    text-fill-color: #574751;
+    text-fill-color: var(--maroon);
+    color: #574751;
+    color: var(--maroon);
+}
+
+html {
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    background: transparent none;
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+main {
+    display: block;
+}
+
+template {
+    display: none;
+}
+
+code {
+    font-family: monospace;
+}

@@ -1,0 +1,347 @@
+(function () {
+    "use strict";
+
+    function getTemplateContent(template) {
+        if ("content" in template) {
+            return template.content;
+        }
+
+        var content = document.createDocumentFragment();
+        content.appendChild(template.firstElementChild);
+        return content;
+    }
+
+    var abbr = ["k", "m", "b", "t"];
+
+    var pid = document.body.dataset.pid,
+        projectName = document.getElementById("projectName").textContent,
+        heartTemplate = getTemplateContent(document.getElementById("heartTemplate")),
+        headers = new Headers(),
+        pswp,
+        pswpItemInfo = document.querySelector(".pswp__item-info"),
+        pswpItemName = document.querySelector(".pswp__item-name"),
+        pswpItemLikeCount = document.querySelector(".pswp__item-like-count"),
+        pswpElement = document.querySelector(".pswp");
+
+    function abbreviateNumber(number, decPlaces) {
+        decPlaces = Math.pow(10, decPlaces);
+        for (var i = abbr.length - 1; i >= 0; i--) {
+            var size = Math.pow(10, (i + 1) * 3);
+            if (size <= number) {
+                number = Math.round(number * decPlaces / size) / decPlaces;
+                if((number === 1000) && (i < abbr.length - 1)) {
+                    number = 1;
+                    i++;
+                }
+
+                number += abbr[i];
+                break;
+            }
+        }
+
+        return number;
+    }
+
+    function openPhotoSwipe(index, disableAnimation) {
+        var itemIndex = parseInt(index, 10),
+            options = {
+                index: itemIndex,
+                getThumbBoundsFn: function(index) {
+                    var rect = document.querySelector(".screen[data-index='" + index + "'] .screenImage").getBoundingClientRect(),
+                        pageYScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+                    return {
+                        x: rect.left,
+                        y: rect.top + pageYScroll,
+                        w: rect.width
+                    };
+                }
+            };
+
+        if(disableAnimation) {
+            options.showAnimationDuration = 0;
+        }
+
+        // Pass data to PhotoSwipe and initialize it
+        pswp = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, Zeplin.items, options);
+        pswp.init();
+
+        pswp.listen("afterChange", function() {
+            var currentItem = Zeplin.items[pswp.getCurrentIndex()],
+                sid = Zeplin.items[pswp.getCurrentIndex()].id;
+
+            pswpItemInfo.style.width = Math.round(currentItem.w * Math.min(currentItem.fitRatio, 1)) + "px";
+            pswpItemName.textContent = currentItem.name;
+            pswpItemLikeCount.textContent = abbreviateNumber(currentItem.likes, 2);
+            pswpItemLikeCount.title = currentItem.likes;
+            pswpItemLikeCount.setAttribute("value", currentItem.likes);
+
+            document.title = currentItem.name + " | " + projectName + " | Zeplin Scene";
+            history.replaceState({}, currentItem.name, "/project/" + pid + "/screen/" + sid);
+
+            document.querySelector(".screen[data-id='" + sid + "']").scrollIntoView();
+            window.scrollBy(0, -40);
+        });
+
+        pswp.listen("enterFullscreen", function() {
+            ga("send", "event", "Activated fullscreen mode", "click");
+        });
+
+        pswp.listen("destroy", function() {
+            document.title = projectName + " | Zeplin Scene";
+            history.replaceState({}, document.title, "/project/" + pid);
+        });
+
+        var initialItem = Zeplin.items[itemIndex];
+        pswpItemInfo.style.width = Math.round(initialItem.w * Math.min(initialItem.fitRatio, 1)) + "px";
+        pswpItemName.textContent = initialItem.name;
+        pswpItemLikeCount.textContent = abbreviateNumber(initialItem.likes, 2);
+        pswpItemLikeCount.title = initialItem.likes;
+        pswpItemLikeCount.setAttribute("value", initialItem.likes);
+
+        document.title = initialItem.name + " | " + projectName + " | Zeplin Scene";
+        history.pushState({}, initialItem.name, "/project/" + pid + "/screen/" + initialItem.id);
+    }
+
+    function getScreenIndexFromURL() {
+        var sMatch = location.pathname.match(/screen\/(\w*)/);
+
+        if (!sMatch) {
+            return;
+        }
+
+        var s = document.querySelector(".screen[data-id='" + sMatch[1] + "']");
+
+        if (!s) {
+            return;
+        }
+
+        return s.dataset.index;
+    }
+
+    var screenIndex = getScreenIndexFromURL();
+    if(screenIndex !== undefined) {
+        openPhotoSwipe(screenIndex, true);
+        ga("send", "event", "Opened screen from url", "click");
+    }
+
+    const requiresRedrawingMultilineTexts = !CSS.supports("-webkit-line-clamp", 3);
+    function redrawMultilineTexts() {
+        Array.from(document.querySelectorAll(".sectionDescription, .screenName")).forEach(element => {
+            let text = element.title;
+            element.textContent = text;
+            while (element.scrollHeight > element.clientHeight && text.length > 1) {
+                text = text.substring(0, text.length - 2) + "…"
+                element.textContent = text;
+            }
+        });
+    }
+
+    if (requiresRedrawingMultilineTexts) {
+        redrawMultilineTexts();
+        window.addEventListener("resize", redrawMultilineTexts);
+    }
+
+    Array.from(document.querySelectorAll(".section")).forEach(section => section.addEventListener("click", ev => {
+        if (ev.target.classList.contains("screenLink")) {
+            ev.preventDefault();
+            openPhotoSwipe(ev.target.parentElement.dataset.index);
+            ga("send", "event", "Opened screen", "click");
+        } else if (ev.target.classList.contains("likeScreenButton")) {
+            var sid = ev.target.parentElement.parentElement.parentElement.dataset.id;
+            ev.target.classList.add("liked");
+            releaseAHeart(sid);
+            likeScreen(sid);
+        } else if (ev.target.classList.contains("sectionCollapseImage")) {
+            ev.preventDefault();
+            toggleSection(ev.target.parentElement.parentElement.parentElement);
+        }
+    }));
+
+    window.addEventListener("popstate", function () {
+        var screenIndex = getScreenIndexFromURL();
+        if(screenIndex !== undefined) {
+            openPhotoSwipe(screenIndex, true);
+        } else if (pswp) {
+            pswp.close();
+        }
+    });
+
+    document.getElementById("twShare").addEventListener("click", function (ev) {
+        ev.preventDefault();
+        document.getElementById("twTrigger").click();
+        ga("send", "event", "Clicked twitter share", "click");
+    });
+
+    window.fbAsyncInit = function () {
+        FB.init({
+            appId: Zeplin.facebookAppId,
+            xfbml: false,
+            version: "v2.4"
+        });
+
+        document.getElementById("fbShare").addEventListener("click", function (ev) {
+            ev.preventDefault();
+
+            FB.ui({
+                method: "share_open_graph",
+                action_type: "og.likes",
+                action_properties: JSON.stringify({
+                    object: location.href
+                })
+            }, function () {});
+
+            ga("send", "event", "Clicked facebook share", "click");
+        });
+    };
+
+    (function(d, s, id){
+        if (d.getElementById(id)) {return;}
+        var js = d.createElement(s),
+            fjs = d.getElementsByTagName(s)[0];
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        js.async = true;
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, "script", "facebook-jssdk"));
+
+    document.getElementById("liShare").addEventListener("click", function (ev) {
+        ev.preventDefault();
+        document.getElementById("liTrigger").click();
+        ga("send", "event", "Clicked linkedin share", "click");
+    });
+
+    function findScreen(sid) {
+        for (var i = 0; i < Zeplin.items.length; i++) {
+            if (Zeplin.items[i].id === sid) {
+                return Zeplin.items[i];
+            }
+        }
+    }
+
+    function incrementLikeCount(sid, amount) {
+        var likedScreen = findScreen(sid),
+            likeCount = document.querySelector(".screen[data-id='" + sid + "'] .likeCount"),
+            likes = likedScreen.likes + (amount || 1);
+
+        likeCount.textContent = abbreviateNumber(likes, 2);
+        likeCount.title = likes;
+        likeCount.setAttribute("value", likes);
+
+        likedScreen.likes = likes;
+        likedScreen.sessionLikes = likedScreen.sessionLikes ? likedScreen.sessionLikes + 1 : 1;
+    }
+
+    function decrementLikeCount(sid, amount) {
+        var likedScreen = findScreen(sid),
+            likeCount = document.querySelector(".screen[data-id='" + sid + "'] .likeCount"),
+            likes = likedScreen.likes - (amount || 1);
+
+        likeCount.textContent = abbreviateNumber(likes, 2);
+        likeCount.title = likes;
+        likeCount.setAttribute("value", likes);
+
+        likedScreen.likes = likes;
+        likedScreen.sessionLikes = likedScreen.sessionLikes ? likedScreen.sessionLikes - 1 : 0;
+    }
+
+    function toggleSection(section) {
+        section.classList.toggle("collapsed");
+
+        if (requiresRedrawingMultilineTexts) {
+            redrawMultilineTexts();
+        }
+    }
+
+    var colors = [
+        "rgba(254, 207, 51, 0.8)",
+        "rgba(253, 189, 57, 0.8)",
+        "rgba(246, 152, 51, 0.8)",
+        "rgba(238, 103, 35, 0.8)",
+        "rgba(200, 207, 45, 0.8)",
+        "rgba(13, 207, 218, 0.8)"
+    ];
+    function releaseAHeart(sid) {
+        var heart = heartTemplate.querySelector(".flyingHeart"),
+            s = document.querySelector(".screen[data-id='" + sid + "']");
+
+        var initialScale = Math.random() * 0.9 + 0.6,
+            initialTranslationX = Math.random() * -25,
+            translationXDiff = Math.random() * 10 - 5,
+            initialTranslationY = Math.random() * -25,
+            translationYDiff = Math.random() * 10 - 30,
+            initialRotation = Math.random() * 5 + (translationXDiff < 0 ? -6 : 1),
+            rotationDiff = Math.random() * 2 + (translationXDiff < 0 ? -2 : 0);
+
+        heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.webkitTransform = "scale(" + initialScale + ")" +
+            "rotate(" + initialRotation + "deg)" +
+            "translate3d(" + initialTranslationX + "px, " + initialTranslationY + "px, 0px)";
+        heart.style.transform = "scale(" + initialScale + ")" +
+            "rotate(" + initialRotation + "deg)" +
+            "translate3d(" + initialTranslationX + "px, " + initialTranslationY + "px, 0px)";
+
+        s.appendChild(document.importNode(heartTemplate, true));
+        heart = s.lastElementChild;
+
+        heart.addEventListener("transitionend", function () {
+            heart.remove();
+        });
+
+        setTimeout(function () {
+            heart.classList.add("flyAway");
+            heart.style.webkitTransform = "scale(" + (initialScale + 0.5) + ")" +
+                "rotate(" + (initialRotation + rotationDiff) + "deg)" +
+                "translate3d(" + (initialTranslationX + translationXDiff) + "px, " + (initialTranslationY + translationYDiff) + "px, 0px)";
+            heart.style.transform = "scale(" + (initialScale + 0.5) + ")" +
+                "rotate(" + (initialRotation + rotationDiff) + "deg)" +
+                "translate3d(" + (initialTranslationX + translationXDiff) + "px, " + (initialTranslationY + translationYDiff) + "px, 0px)";
+        }, 100);
+    }
+
+    function likeScreen(sid) {
+        if (findScreen(sid).sessionLikes > 19) {
+            return;
+        }
+
+        incrementLikeCount(sid);
+
+        fetch(Zeplin.urls.sceneApiURL + "/projects/" + pid + "/screens/" + sid + "/like", {
+            method: "POST",
+            headers: headers
+        }).then(function (response) {
+            if (!response.ok) {
+                throw response.json();
+            }
+        }).catch(function (error) {
+            console.error(error);
+            decrementLikeCount(sid);
+            alert("title" in error
+                ? error.title + "\n" + error.message
+                : "We're experiencing a problem here, our developers are on the case. Please try again later.");
+        });
+
+        ga("send", "event", "Liked a screen", "click");
+    }
+
+    var pusher = new Pusher(Zeplin.pusherKey, {
+        cluster: "zeplin",
+        disableFlash: true,
+        encrypted: true
+    });
+
+    pusher.connection.bind("connected", function() {
+        headers.set("Zeplin-Socket-Id", pusher.connection.socket_id);
+    });
+
+    var projectChannel = pusher.subscribe("project@" + pid);
+
+    projectChannel.bind("LikeScreen", function (data) {
+        var sid = data.params.sid;
+        if (!document.hidden) {
+            releaseAHeart(sid);
+        }
+        incrementLikeCount(sid);
+    });
+
+})();
